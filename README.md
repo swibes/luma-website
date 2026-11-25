@@ -41,11 +41,11 @@ The browser requests up to 100 public releases without a token. Drafts are exclu
 
 Release metadata is cached in localStorage for 15 minutes. Network failure shows a message on release pages and directs downloads to GitHub. Markdown is rendered without raw HTML or external images. Never put a GitHub token in a VITE variable.
 
-## GitHub Pages — only after approval
+## Publish using your GitHub account
 
-No deployment has been performed. A manual-only workflow is included. Create a separate website repository, add these project files (excluding node_modules and dist), and enable Settings → Pages → GitHub Actions. Run the Deploy website workflow manually after approval. It builds using the repository name as the base path. Hash routes allow page refreshes on static hosting.
+Create a new public GitHub repository named `luma-website` under your swibes account. From this project folder, run `git init`, `git add .`, `git commit -m "Prepare Luma website"`, `git branch -M main`, `git remote add origin https://github.com/swibes/luma-website.git`, and `git push -u origin main`. In GitHub, open Settings → Pages and choose GitHub Actions as the build source. Then open Actions → Deploy website → Run workflow. The included manual workflow runs tests and builds before publishing. Hash routes support static hosting.
 
-For a custom domain, configure DNS and Pages settings, add a CNAME file under public, and set the repository variable BASE_PATH to `/`. For a user-site repository, also set BASE_PATH to `/`. Otherwise leave it unset to use `/repository-name/`.
+The project includes `public/CNAME` for `lumadesktop.com`; Vite copies it into the deployment output. In GitHub Settings → Pages, set the custom domain to `lumadesktop.com` and enable Enforce HTTPS when the certificate is ready. Set repository variable `BASE_PATH` to `/` under Settings → Secrets and variables → Actions → Variables. In Namecheap, Advanced DNS, add A records for host `@` to `185.199.108.153`, `185.199.109.153`, `185.199.110.153`, and `185.199.111.153`. Add CNAME host `www` pointing to `swibes.github.io`. Remove conflicting `@`/`www` A, AAAA, or URL redirect records first. DNS propagation and HTTPS certificate issuance can take time.
 
 Before publishing, set absolute Open Graph image and canonical URLs for the approved domain in index.html. No domain is assumed in this local project.
 
@@ -56,3 +56,4 @@ Automated release tests cover stable selection, drafts/prereleases, malformed da
 ## Provenance
 
 Brand SVG/PNG files and theme colors originate from the public source archive attached to https://github.com/swibes/Luma/releases/tag/v2.1.4 . Public identity: swibes. No analytics or account collection is implemented.
+
